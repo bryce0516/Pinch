@@ -16,6 +16,12 @@ struct ContentView: View {
   
   // MARK: - FUNCTION
   
+  func resetImageState() {
+    return withAnimation(.spring()) {
+      imageScale = 1
+      imageOffset = .zero
+    }
+  }
   // MARK: - CONTENT
   var body: some View {
     
@@ -37,9 +43,7 @@ struct ContentView: View {
                 imageScale = 5
               }
             } else {
-              withAnimation(.spring()){
-                imageScale = 1
-              }
+              resetImageState()
             }
           }
           .gesture(
@@ -50,10 +54,12 @@ struct ContentView: View {
                 }
               })
               .onEnded({ _ in
-                <#code#>
+                if imageScale <= 1 {
+                  resetImageState()
+                }
               })
           )
-          
+        
       }
       .navigationTitle("Pinch & Zoom")
       .navigationBarTitleDisplayMode(.inline)
