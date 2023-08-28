@@ -27,6 +27,7 @@ struct ContentView: View {
     
     NavigationView {
       ZStack {
+        Color.clear
         // MARK: - PAGE IMAGE
         Image("magazine-front-cover")
           .resizable()
@@ -63,20 +64,22 @@ struct ContentView: View {
       }
       .navigationTitle("Pinch & Zoom")
       .navigationBarTitleDisplayMode(.inline)
+
+      .onAppear {
+        withAnimation(.linear(duration: 1)) {
+          isAnimating = true
+        }
+      }
+      // MARK: - INFO PANEL
+      .overlay(
+        InfoPanelView(scale: imageScale, offset: imageOffset)
+          .padding(.horizontal)
+          .padding(.top, 30)
+        , alignment: .top
+      )
     }// : NAVIGATION
     .navigationViewStyle(.stack)
-    .onAppear {
-      withAnimation(.linear(duration: 1)) {
-        isAnimating = true
-      }
-    }
-    VStack {
-      Image(systemName: "globe")
-        .imageScale(.large)
-        .foregroundColor(.accentColor)
-      Text("Hello, world!")
-    }
-    .padding()
+
   }
 }
 
